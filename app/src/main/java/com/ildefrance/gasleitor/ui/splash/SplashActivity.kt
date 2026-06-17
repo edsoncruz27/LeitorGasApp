@@ -17,10 +17,10 @@ class SplashActivity : AppCompatActivity() {
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Navigate to date confirmation after 3 seconds
+        // Navigate to date confirmation after 5 seconds
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(Intent(this, DateConfirmActivity::class.java))
             finish()
-        }, 3000)
+        }, 5000)
     }
 }
