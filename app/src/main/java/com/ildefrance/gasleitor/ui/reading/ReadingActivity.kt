@@ -3,11 +3,14 @@ package com.ildefrance.gasleitor.ui.reading
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -79,6 +82,25 @@ class ReadingActivity : AppCompatActivity() {
                 validateInput()
             }
         })
+
+        // Ao apertar "Enter" (ação "Concluído") no teclado numérico,
+        // já salva a leitura sem precisar clicar em "Confirmar Leitura".
+        binding.etValue.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                hideKeyboard()
+                if (binding.btnConfirmReading.isEnabled) {
+                    confirmReading()
+                }
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+    private fun hideKeyboard() {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.etValue.windowToken, 0)
     }
 
     private fun validateInput() {
@@ -95,6 +117,7 @@ class ReadingActivity : AppCompatActivity() {
 
         binding.btnConfirmReading.isEnabled = false
         binding.btnConfirmReading.setOnClickListener {
+            hideKeyboard()
             confirmReading()
         }
 
