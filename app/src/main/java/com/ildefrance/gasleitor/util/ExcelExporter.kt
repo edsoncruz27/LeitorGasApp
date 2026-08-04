@@ -102,7 +102,7 @@ object ExcelExporter {
 
         // ── Data rows ───────────────────────────────────────────────────────
         val readingMap = readings.associateBy { it.apartment }
-        val allApts = ApartmentHelper.getAllApartments()
+        val allApts = ApartmentHelper.getAllApartments().reversed()
         var dataRow = 0
 
         allApts.forEach { (apt, floor) ->
